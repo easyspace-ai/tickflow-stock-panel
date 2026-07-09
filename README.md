@@ -149,7 +149,7 @@ cp .env.example .env       # 按需填 TICKFLOW_API_KEY(留空 = None 模式)
 ./dev.sh                   # Windows: .\dev.ps1
 ```
 
-自动检查 / 下载依赖、释放端口、同时起前后端。后端 → <http://localhost:3018> · 前端 → <http://localhost:3011>。
+自动检查 / 下载依赖、释放端口、同时起前后端。后端 → <http://localhost:3018> · 前端 → <http://localhost:9200>。
 
 ### 方式 B:Docker(部署最省心)
 

@@ -2,7 +2,7 @@
 # tickflow-stock-panel — 一键启动前后端
 #
 # 用法:
-#   ./dev.sh                          # 默认 backend:3018  frontend:3011
+#   ./dev.sh                          # 默认 backend:3018  frontend:9200
 #   BACKEND_PORT=8000 ./dev.sh        # 改后端端口
 #   FRONTEND_PORT=5173 ./dev.sh       # 改前端端口
 #
@@ -14,7 +14,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKEND_DIR="$ROOT/backend"
 FRONTEND_DIR="$ROOT/frontend"
 BACKEND_PORT="${BACKEND_PORT:-3018}"
-FRONTEND_PORT="${FRONTEND_PORT:-3011}"
+FRONTEND_PORT="${FRONTEND_PORT:-9200}"
 
 BLUE='\033[0;34m'
 GREEN='\033[0;32m'

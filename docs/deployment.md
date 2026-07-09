@@ -19,7 +19,7 @@ cp .env.example .env       # 按需填 TICKFLOW_API_KEY(留空 = None 模式)
 
 `dev.sh` 自动检查 / 下载依赖、释放端口、同时起前后端,Ctrl-C 一并关闭。默认:
 
-- 后端 → <http://localhost:3018> · 前端 → <http://localhost:3011>
+- 后端 → <http://localhost:3018> · 前端 → <http://localhost:9200>
 - 自定义端口:`BACKEND_PORT=8000 FRONTEND_PORT=5173 ./dev.sh`
 
 ### 手动分别启动(不想用 dev.sh)
@@ -30,7 +30,7 @@ cd backend && uv sync --extra backtest   # 含回测依赖
 uv run uvicorn app.main:app --reload --port 3018
 
 # 前端
-cd frontend && pnpm install && pnpm dev   # http://localhost:3011
+cd frontend && pnpm install && pnpm dev   # http://localhost:9200
 ```
 
 ---

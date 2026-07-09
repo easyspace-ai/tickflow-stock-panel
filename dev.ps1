@@ -20,7 +20,7 @@ $ErrorActionPreference = 'Stop'
 
 # Port precedence: CLI arg > env var > default
 if ($BackendPort  -le 0) { $BackendPort  = if ($env:BACKEND_PORT)  { [int]$env:BACKEND_PORT }  else { 3018 } }
-if ($FrontendPort -le 0) { $FrontendPort = if ($env:FRONTEND_PORT) { [int]$env:FRONTEND_PORT } else { 3011 } }
+if ($FrontendPort -le 0) { $FrontendPort = if ($env:FRONTEND_PORT) { [int]$env:FRONTEND_PORT } else { 9200 } }
 
 # Force UTF-8 console output so child process logs aren't garbled
 try {
