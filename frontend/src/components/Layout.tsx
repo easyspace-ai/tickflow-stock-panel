@@ -36,6 +36,7 @@ import {
   Flame,
   BarChart3,
   Sparkles,
+  Rocket,
   Layers3,
   Landmark,
   Cable,
@@ -74,6 +75,7 @@ const nav = [
   { to: '/backtest',   label: '回测',   icon: History },
   { to: '/stock-analysis',    label: '个股分析', icon: TrendingUp },
   { to: '/limit-ladder', label: '连板梯队', icon: Flame },
+  { to: '/stock-growth', label: '三年五倍', icon: Rocket },
   { to: '/concept-analysis', label: '概念分析', icon: Layers3 },
   { to: '/industry-analysis', label: '行业分析', icon: Landmark },
   { to: '/financials', label: '财务分析', icon: FileText },
@@ -438,28 +440,26 @@ export function Layout() {
               className="font-mono font-bold text-[13px] tracking-[0.06em] text-foreground leading-tight"
               style={{ textShadow: `0 0 10px ${BRAND}44` }}
             >
-              <div>TickFlow</div>
-              <div>Stock Panel</div>
+              
+              <div>量化终端</div>
             </div>
           </div>
 
-          <div className="mt-2.5 text-[10px] uppercase tracking-[0.22em] text-secondary">
-            Quant · Terminal
-          </div>
+         
 
           <div
             className="mt-3 h-px"
             style={{ background: `linear-gradient(90deg, ${BRAND}88, transparent 80%)` }}
           />
 
-          <TierBadge
+          {/* <TierBadge
             label={caps?.label ?? ''}
             hasKey={settingsState?.mode !== 'none'}
           />
           <AIConfigBadge
             configured={settingsState?.ai_configured ?? settingsState?.has_ai_key}
             model={settingsState?.ai_model}
-          />
+          /> */}
         </div>
 
         <nav className="flex-1 min-h-0 overflow-y-auto px-2 py-3 space-y-0.5">

@@ -2019,6 +2019,44 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ strategy_id: strategyId, code, name: meta?.name ?? '', description: meta?.description ?? '' }),
     }),
+
+  // ===== 三年五倍 =====
+  stockGrowthList: (params?: {
+    q?: string
+    min_gain_pct?: number
+    years?: number
+    sort_by?: string
+    sort_order?: 'asc' | 'desc'
+    offset?: number
+    limit?: number
+  }) => {
+    const qs = new URLSearchParams()
+    if (params?.q) qs.set('q', params.q)
+    if (params?.min_gain_pct != null) qs.set('min_gain_pct', String(params.min_gain_pct))
+    if (params?.years != null) qs.set('years', String(params.years))
+    if (params?.sort_by) qs.set('sort_by', params.sort_by)
+    if (params?.sort_order) qs.set('sort_order', params.sort_order)
+    if (params?.offset != null) qs.set('offset', String(params.offset))
+    if (params?.limit != null) qs.set('limit', String(params.limit))
+    const s = qs.toString()
+    return request<StockGrowthResult>(`/api/stock-growth${s ? `?${s}` : ''}`)
+  },
+
+  stockGrowthStatus: () =>
+    request<StockGrowthScanStatus>('/api/stock-growth/status'),
+
+  stockGrowthRefresh: (forceAdj = false) =>
+    request<{ ok: boolean; message: string }>(`/api/stock-growth/refresh?force_adj=${forceAdj}`, { method: 'POST' }),
+
+  stockGrowthKline: (symbol: string, startDate: string, endDate: string, peakDate?: string) => {
+    const qs = new URLSearchParams({
+      symbol,
+      start_date: startDate,
+      end_date: endDate,
+    })
+    if (peakDate) qs.set('peak_date', peakDate)
+    return request<StockGrowthKlineResult>(`/api/stock-growth/kline?${qs}`)
+  },
 }
 
 // ===== Pipeline =====
@@ -2200,6 +2238,65 @@ export interface AnalysisColumn {
   format?: string | null
   aggregate?: 'count' | 'avg' | 'sum' | 'min' | 'max' | null
   visible?: boolean
+}
+
+export interface StockGrowthRow {
+  symbol: string
+  name: string
+  start_date: string
+  end_date: string
+  peak_date: string
+  start_price: number
+  peak_price: number
+  gain_pct: number
+  gain_times: number
+}
+
+export interface StockGrowthResult {
+  total: number
+  rows: StockGrowthRow[]
+  generated_at: string | null
+  meta: {
+    window_days: number
+    gain_threshold: number
+    price_type: string
+    method: string
+    analysis_years?: number | null
+    analysis_start?: string | null
+    analysis_end?: string
+  }
+}
+
+export interface StockGrowthScanStatus {
+  running: boolean
+  stage: string
+  pct: number
+  message: string
+  has_results: boolean
+  result_path: string
+}
+
+export interface StockGrowthKlineRow {
+  date: string
+  open: number
+  high: number
+  low: number
+  close: number
+  volume?: number | null
+}
+
+export interface StockGrowthKlineResult {
+  symbol: string
+  rows: StockGrowthKlineRow[]
+  source: string
+  price_type: string
+  peak_date?: string
+  range?: {
+    fetch_start: string
+    fetch_end: string
+    window_start: string
+    window_end: string
+  }
 }
 
 export interface AnalysisMenu {

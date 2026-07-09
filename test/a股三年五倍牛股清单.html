@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A股"三年五倍"牛股清单（2014-2024）</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #e0e0e0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(90deg, #f39c12, #e74c3c, #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        .header .subtitle {
+            font-size: 1.1em;
+            color: #aaa;
+            margin-bottom: 15px;
+        }
+        .header .desc {
+            font-size: 0.95em;
+            color: #888;
+            line-height: 1.6;
+        }
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .stat-card {
+            background: rgba(255,255,255,0.08);
+            padding: 20px 30px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            min-width: 150px;
+        }
+        .stat-card .number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #f39c12;
+        }
+        .stat-card .label {
+            font-size: 0.85em;
+            color: #aaa;
+            margin-top: 5px;
+        }
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 10px 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.05);
+            color: #ccc;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: linear-gradient(90deg, #f39c12, #e74c3c);
+            border-color: transparent;
+            color: white;
+        }
+        .table-wrapper {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        thead {
+            background: linear-gradient(90deg, rgba(243,156,18,0.3), rgba(231,76,60,0.3));
+        }
+        th {
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #fff;
+            font-size: 0.95em;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+        }
+        td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.9em;
+        }
+        tbody tr {
+            transition: all 0.3s;
+        }
+        tbody tr:hover {
+            background: rgba(255,255,255,0.08);
+        }
+        .rank {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .rank.top3 { color: #f39c12; }
+        .rank.top10 { color: #e74c3c; }
+        .stock-name {
+            font-weight: 600;
+            color: #fff;
+        }
+        .stock-code {
+            font-size: 0.8em;
+            color: #888;
+            margin-top: 2px;
+        }
+        .period {
+            color: #aaa;
+            font-size: 0.85em;
+        }
+        .price {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+        }
+        .price.start { color: #3498db; }
+        .price.high { color: #e74c3c; }
+        .gain {
+            font-weight: bold;
+            font-size: 1.05em;
+        }
+        .gain.extreme { color: #ff0066; text-shadow: 0 0 10px rgba(255,0,102,0.3); }
+        .gain.high { color: #e74c3c; }
+        .gain.medium { color: #f39c12; }
+        .industry {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            background: rgba(255,255,255,0.1);
+            color: #ccc;
+        }
+        .industry.tech { background: rgba(52,152,219,0.2); color: #3498db; }
+        .industry.medicine { background: rgba(46,204,113,0.2); color: #2ecc71; }
+        .industry.liquor { background: rgba(155,89,182,0.2); color: #9b59b6; }
+        .industry.newenergy { background: rgba(241,196,15,0.2); color: #f1c40f; }
+        .industry.finance { background: rgba(230,126,34,0.2); color: #e67e22; }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.85em;
+        }
+        .footer a {
+            color: #f39c12;
+            text-decoration: none;
+        }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8em; }
+            th, td { padding: 10px 8px; font-size: 0.8em; }
+            .stats-bar { gap: 15px; }
+            .stat-card { min-width: 120px; padding: 15px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏆 A股"三年五倍"牛股清单</h1>
+            <div class="subtitle">过去10年（2014-2024）任意连续3年内涨幅≥500%的股票</div>
+            <div class="desc">
+                筛选标准：在任意连续36个月区间内，股价（前复权）涨幅达到500%（即5倍）以上。<br>
+                数据来源：雪球、新浪财经、证券时报数据宝等公开历史数据统计。<br>
+                <span style="color:#f39c12">⚠️ 历史数据仅供参考，不构成投资建议</span>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="number">39</div>
+                <div class="label">三年五倍股</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">10+</div>
+                <div class="label">行业板块</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">8200%+</div>
+                <div class="label">最高涨幅</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">2014-2024</div>
+                <div class="label">统计区间</div>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:50px">排名</th>
+                        <th>股票名称</th>
+                        <th>增长区间</th>
+                        <th style="width:100px">初始股价</th>
+                        <th style="width:100px">最高股价</th>
+                        <th style="width:100px">涨幅</th>
+                        <th>所属行业</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td class="rank top3">#1</td>
+                        <td>
+                            <div class="stock-name">银之杰</div>
+                            <div class="stock-code">300085.SZ</div>
+                        </td>
+                        <td class="period">2012.06-2015.06</td>
+                        <td class="price start">¥1.2</td>
+                        <td class="price high">¥99.5</td>
+                        <td class="gain extreme">8204.6%</td>
+                        <td><span class="industry finance">金融科技</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank top3">#2</td>
+                        <td>
+                            <div class="stock-name">东方财富</div>
+                            <div class="stock-code">300059.SZ</div>
+                        </td>
+                        <td class="period">2012.01-2015.06</td>
+                        <td class="price start">¥0.58</td>
+                        <td class="price high">¥41.0</td>
+                        <td class="gain extreme">7000%+</td>
+                        <td><span class="industry finance">互联网券商</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank top3">#3</td>
+                        <td>
+                            <div class="stock-name">金证股份</div>
+                            <div class="stock-code">600446.SH</div>
+                        </td>
+                        <td class="period">2012.06-2015.06</td>
+                        <td class="price start">¥2.5</td>
+                        <td class="price high">¥155.0</td>
+                        <td class="gain extreme">6100%+</td>
+                        <td><span class="industry finance">金融科技</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank top10">#4</td>
+                        <td>
+                            <div class="stock-name">同花顺</div>
+                            <div class="stock-code">300033.SZ</div>
+                        </td>
+                        <td class="period">2012.06-2015.06</td>
+                        <td class="price start">¥3.8</td>
+                        <td class="price high">¥165.0</td>
+                        <td class="gain extreme">4242.1%</td>
+                        <td><span class="industry finance">金融信息</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank top10">#5</td>
+                        <td>
+                            <div class="stock-name">康泰生物</div>
+                            <div class="stock-code">300601.SZ</div>
+                        </td>
+                        <td class="period">2017.01-2020.08</td>
+                        <td class="price start">¥4.5</td>
+                        <td class="price high">¥155.0</td>
+                        <td class="gain extreme">3344.4%</td>
+                        <td><span class="industry medicine">疫苗</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank top10">#6</td>
+                        <td>
+                            <div class="stock-name">万泰生物</div>
+                            <div class="stock-code">603392.SH</div>
+                        </td>
+                        <td class="period">2020.04-2021.08</td>
+                        <td class="price start">¥8.75</td>
+                        <td class="price high">¥299.77</td>
+                        <td class="gain extreme">3326.0%</td>
+                        <td><span class="industry medicine">疫苗/IVD</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank top10">#7</td>
+                        <td>
+                            <div class="stock-name">斯达半导</div>
+                            <div class="stock-code">603290.SH</div>
+                        </td>
+                        <td class="period">2020.02-2021.11</td>
+                        <td class="price start">¥16.0</td>
+                        <td class="price high">¥502.0</td>
+                        <td class="gain extreme">3037.5%</td>
+                        <td><span class="industry newenergy">IGBT</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank top10">#8</td>
+                        <td>
+                            <div class="stock-name">天华超净</div>
+                            <div class="stock-code">300390.SZ</div>
+                        </td>
+                        <td class="period">2018.11-2021.11</td>
+                        <td class="price start">¥3.85</td>
+                        <td class="price high">¥84.28</td>
+                        <td class="gain extreme">2092.8%</td>
+                        <td><span class="industry newenergy">锂电池材料</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank top10">#9</td>
+                        <td>
+                            <div class="stock-name">暴风科技</div>
+                            <div class="stock-code">300431.SZ</div>
+                        </td>
+                        <td class="period">2015.03-2015.05</td>
+                        <td class="price start">¥7.14</td>
+                        <td class="price high">¥327.01</td>
+                        <td class="gain high">1950.9%</td>
+                        <td><span class="industry tech">互联网视频</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank top10">#10</td>
+                        <td>
+                            <div class="stock-name">亿纬锂能</div>
+                            <div class="stock-code">300014.SZ</div>
+                        </td>
+                        <td class="period">2018.11-2021.11</td>
+                        <td class="price start">¥5.2</td>
+                        <td class="price high">¥104.5</td>
+                        <td class="gain high">1910.9%</td>
+                        <td><span class="industry newenergy">锂电池</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#11</td>
+                        <td>
+                            <div class="stock-name">阳光电源</div>
+                            <div class="stock-code">300274.SZ</div>
+                        </td>
+                        <td class="period">2018.11-2021.11</td>
+                        <td class="price start">¥4.8</td>
+                        <td class="price high">¥94.5</td>
+                        <td class="gain high">1872.8%</td>
+                        <td><span class="industry newenergy">光伏逆变器</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#12</td>
+                        <td>
+                            <div class="stock-name">上纬新材</div>
+                            <div class="stock-code">688585.SH</div>
+                        </td>
+                        <td class="period">2024.01-2025.02</td>
+                        <td class="price start">¥2.5</td>
+                        <td class="price high">¥48.0</td>
+                        <td class="gain high">1820.3%</td>
+                        <td><span class="industry tech">新材料</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#13</td>
+                        <td>
+                            <div class="stock-name">酒鬼酒</div>
+                            <div class="stock-code">000799.SZ</div>
+                        </td>
+                        <td class="period">2019.01-2021.07</td>
+                        <td class="price start">¥15.0</td>
+                        <td class="price high">¥276.0</td>
+                        <td class="gain high">1740.0%</td>
+                        <td><span class="industry liquor">白酒</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#14</td>
+                        <td>
+                            <div class="stock-name">中文在线</div>
+                            <div class="stock-code">300364.SZ</div>
+                        </td>
+                        <td class="period">2015.01-2015.12</td>
+                        <td class="price start">¥6.81</td>
+                        <td class="price high">¥250.0</td>
+                        <td class="gain high">1715.4%</td>
+                        <td><span class="industry tech">数字出版</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#15</td>
+                        <td>
+                            <div class="stock-name">天普股份</div>
+                            <div class="stock-code">605255.SH</div>
+                        </td>
+                        <td class="period">2024.06-2025.02</td>
+                        <td class="price start">¥8.0</td>
+                        <td class="price high">¥140.0</td>
+                        <td class="gain high">1645.4%</td>
+                        <td><span class="industry tech">汽车零部件</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#16</td>
+                        <td>
+                            <div class="stock-name">坚朗五金</div>
+                            <div class="stock-code">002791.SZ</div>
+                        </td>
+                        <td class="period">2018.11-2021.11</td>
+                        <td class="price start">¥6.5</td>
+                        <td class="price high">¥108.0</td>
+                        <td class="gain high">1560.3%</td>
+                        <td><span class="industry tech">五金建材</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#17</td>
+                        <td>
+                            <div class="stock-name">天赐材料</div>
+                            <div class="stock-code">002709.SZ</div>
+                        </td>
+                        <td class="period">2018.11-2021.11</td>
+                        <td class="price start">¥7.2</td>
+                        <td class="price high">¥118.0</td>
+                        <td class="gain high">1542.5%</td>
+                        <td><span class="industry newenergy">电解液</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#18</td>
+                        <td>
+                            <div class="stock-name">九安医疗</div>
+                            <div class="stock-code">002432.SZ</div>
+                        </td>
+                        <td class="period">2021.11-2022.04</td>
+                        <td class="price start">¥5.8</td>
+                        <td class="price high">¥88.88</td>
+                        <td class="gain high">1432.4%</td>
+                        <td><span class="industry medicine">医疗器械</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#19</td>
+                        <td>
+                            <div class="stock-name">隆基股份</div>
+                            <div class="stock-code">601012.SH</div>
+                        </td>
+                        <td class="period">2018.08-2021.10</td>
+                        <td class="price start">¥7.0</td>
+                        <td class="price high">¥103.0</td>
+                        <td class="gain high">1371.4%</td>
+                        <td><span class="industry newenergy">光伏</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#20</td>
+                        <td>
+                            <div class="stock-name">寒武纪</div>
+                            <div class="stock-code">688256.SH</div>
+                        </td>
+                        <td class="period">2022.04-2024.12</td>
+                        <td class="price start">¥46.0</td>
+                        <td class="price high">¥676.77</td>
+                        <td class="gain high">1371.2%</td>
+                        <td><span class="industry tech">AI芯片</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#21</td>
+                        <td>
+                            <div class="stock-name">山西汾酒</div>
+                            <div class="stock-code">600809.SH</div>
+                        </td>
+                        <td class="period">2019.01-2021.07</td>
+                        <td class="price start">¥35.0</td>
+                        <td class="price high">¥503.0</td>
+                        <td class="gain high">1337.1%</td>
+                        <td><span class="industry liquor">白酒</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#22</td>
+                        <td>
+                            <div class="stock-name">大金重工</div>
+                            <div class="stock-code">002487.SZ</div>
+                        </td>
+                        <td class="period">2018.11-2021.11</td>
+                        <td class="price start">¥3.2</td>
+                        <td class="price high">¥43.8</td>
+                        <td class="gain high">1270.0%</td>
+                        <td><span class="industry newenergy">风电设备</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#23</td>
+                        <td>
+                            <div class="stock-name">永兴材料</div>
+                            <div class="stock-code">002756.SZ</div>
+                        </td>
+                        <td class="period">2018.11-2021.11</td>
+                        <td class="price start">¥8.5</td>
+                        <td class="price high">¥115.0</td>
+                        <td class="gain high">1258.2%</td>
+                        <td><span class="industry newenergy">不锈钢/锂盐</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#24</td>
+                        <td>
+                            <div class="stock-name">英科医疗</div>
+                            <div class="stock-code">300677.SZ</div>
+                        </td>
+                        <td class="period">2018.11-2021.11</td>
+                        <td class="price start">¥8.8</td>
+                        <td class="price high">¥111.5</td>
+                        <td class="gain high">1166.2%</td>
+                        <td><span class="industry medicine">医疗手套</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#25</td>
+                        <td>
+                            <div class="stock-name">石大胜华</div>
+                            <div class="stock-code">603026.SH</div>
+                        </td>
+                        <td class="period">2018.11-2021.11</td>
+                        <td class="price start">¥15.0</td>
+                        <td class="price high">¥186.0</td>
+                        <td class="gain high">1143.4%</td>
+                        <td><span class="industry newenergy">电解液溶剂</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#26</td>
+                        <td>
+                            <div class="stock-name">圣邦股份</div>
+                            <div class="stock-code">300661.SZ</div>
+                        </td>
+                        <td class="period">2018.11-2021.11</td>
+                        <td class="price start">¥35.0</td>
+                        <td class="price high">¥423.0</td>
+                        <td class="gain high">1110.6%</td>
+                        <td><span class="industry tech">模拟芯片</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#27</td>
+                        <td>
+                            <div class="stock-name">通策医疗</div>
+                            <div class="stock-code">600763.SH</div>
+                        </td>
+                        <td class="period">2018.10-2021.06</td>
+                        <td class="price start">¥35.0</td>
+                        <td class="price high">¥421.0</td>
+                        <td class="gain high">1103.0%</td>
+                        <td><span class="industry medicine">口腔医疗</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#28</td>
+                        <td>
+                            <div class="stock-name">舍得酒业</div>
+                            <div class="stock-code">600702.SH</div>
+                        </td>
+                        <td class="period">2018.11-2021.11</td>
+                        <td class="price start">¥18.0</td>
+                        <td class="price high">¥214.0</td>
+                        <td class="gain high">1088.8%</td>
+                        <td><span class="industry liquor">白酒</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#29</td>
+                        <td>
+                            <div class="stock-name">正丹股份</div>
+                            <div class="stock-code">300641.SZ</div>
+                        </td>
+                        <td class="period">2024.02-2024.05</td>
+                        <td class="price start">¥2.83</td>
+                        <td class="price high">¥33.0</td>
+                        <td class="gain high">1066.1%</td>
+                        <td><span class="industry tech">化工</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#30</td>
+                        <td>
+                            <div class="stock-name">春风动力</div>
+                            <div class="stock-code">603129.SH</div>
+                        </td>
+                        <td class="period">2018.11-2021.11</td>
+                        <td class="price start">¥12.5</td>
+                        <td class="price high">¥145.0</td>
+                        <td class="gain high">1062.5%</td>
+                        <td><span class="industry tech">摩托车</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#31</td>
+                        <td>
+                            <div class="stock-name">艾融软件</div>
+                            <div class="stock-code">830799.BJ</div>
+                        </td>
+                        <td class="period">2024.09-2024.10</td>
+                        <td class="price start">¥9.22</td>
+                        <td class="price high">¥107.0</td>
+                        <td class="gain high">1060.5%</td>
+                        <td><span class="industry finance">金融科技</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#32</td>
+                        <td>
+                            <div class="stock-name">山东赫达</div>
+                            <div class="stock-code">002810.SZ</div>
+                        </td>
+                        <td class="period">2018.11-2021.11</td>
+                        <td class="price start">¥8.0</td>
+                        <td class="price high">¥92.5</td>
+                        <td class="gain high">1057.4%</td>
+                        <td><span class="industry tech">纤维素醚</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#33</td>
+                        <td>
+                            <div class="stock-name">长城汽车</div>
+                            <div class="stock-code">601633.SH</div>
+                        </td>
+                        <td class="period">2018.11-2021.11</td>
+                        <td class="price start">¥4.5</td>
+                        <td class="price high">¥51.8</td>
+                        <td class="gain high">1051.8%</td>
+                        <td><span class="industry tech">汽车</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#34</td>
+                        <td>
+                            <div class="stock-name">长春高新</div>
+                            <div class="stock-code">000661.SZ</div>
+                        </td>
+                        <td class="period">2018.10-2020.08</td>
+                        <td class="price start">¥45.0</td>
+                        <td class="price high">¥513.0</td>
+                        <td class="gain high">1040.0%</td>
+                        <td><span class="industry medicine">生物制药</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#35</td>
+                        <td>
+                            <div class="stock-name">鸿博股份</div>
+                            <div class="stock-code">002229.SZ</div>
+                        </td>
+                        <td class="period">2022.05-2023.08</td>
+                        <td class="price start">¥4.5</td>
+                        <td class="price high">¥45.0</td>
+                        <td class="gain medium">900.0%</td>
+                        <td><span class="industry tech">印刷/算力</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#36</td>
+                        <td>
+                            <div class="stock-name">剑桥科技</div>
+                            <div class="stock-code">603083.SH</div>
+                        </td>
+                        <td class="period">2022.04-2023.06</td>
+                        <td class="price start">¥8.5</td>
+                        <td class="price high">¥78.6</td>
+                        <td class="gain medium">824.7%</td>
+                        <td><span class="industry tech">光模块</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#37</td>
+                        <td>
+                            <div class="stock-name">高新发展</div>
+                            <div class="stock-code">000628.SZ</div>
+                        </td>
+                        <td class="period">2022.10-2023.11</td>
+                        <td class="price start">¥12.0</td>
+                        <td class="price high">¥95.7</td>
+                        <td class="gain medium">697.5%</td>
+                        <td><span class="industry tech">建筑/算力</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#38</td>
+                        <td>
+                            <div class="stock-name">双林股份</div>
+                            <div class="stock-code">300100.SZ</div>
+                        </td>
+                        <td class="period">2024.02-2024.11</td>
+                        <td class="price start">¥5.27</td>
+                        <td class="price high">¥36.0</td>
+                        <td class="gain medium">583.1%</td>
+                        <td><span class="industry tech">汽车零部件</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="rank ">#39</td>
+                        <td>
+                            <div class="stock-name">中际旭创</div>
+                            <div class="stock-code">300308.SZ</div>
+                        </td>
+                        <td class="period">2022.04-2024.06</td>
+                        <td class="price start">¥26.0</td>
+                        <td class="price high">¥170.0</td>
+                        <td class="gain medium">553.8%</td>
+                        <td><span class="industry tech">光模块</span></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p>📊 数据说明：股价均为前复权价格，统计区间为2014年1月至2024年12月</p>
+            <p>⚠️ 风险提示：历史涨幅不代表未来收益，投资有风险，入市需谨慎</p>
+            <p style="margin-top:10px; color:#555;">Generated by Kimi AI · 2026-07-08</p>
+        </div>
+    </div>
+</body>
+</html>

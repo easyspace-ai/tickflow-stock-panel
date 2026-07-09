@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A股三年五倍清单（s.html 验证版）</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif; background: #0d1225; color: #e8edf5; padding: 32px 20px; }
+  .wrap { max-width: 1280px; margin: 0 auto; }
+  h1 { font-size: 1.6rem; margin-bottom: 8px; }
+  .meta { color: #8892a8; font-size: 0.9rem; line-height: 1.6; margin-bottom: 24px; }
+  .stats { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+  .stat { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 14px 20px; min-width: 120px; }
+  .stat b { display: block; font-size: 1.4rem; color: #f0b429; }
+  .stat span { font-size: 0.8rem; color: #8892a8; }
+  table { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.03); border-radius: 12px; overflow: hidden; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.88rem; }
+  th { background: rgba(255,255,255,0.05); color: #8892a8; font-weight: 600; }
+  tr:hover td { background: rgba(255,255,255,0.03); }
+  .ok { color: #22c55e; }
+  .fail { color: #ef4444; }
+  .code { color: #8892a8; font-size: 0.8rem; }
+  .num { font-variant-numeric: tabular-nums; }
+  .warn { background: rgba(239,68,68,0.08); }
+  .note { margin-top: 20px; color: #5a6478; font-size: 0.82rem; line-height: 1.7; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>A股「三年五倍」清单 — s.html 验证补齐版</h1>
+  <p class="meta">
+    筛选标准：2016-01 ~ 2026-07 任意连续 ≤36 个月内，前复权月线最低价 → 最高价涨幅 ≥500%<br>
+    数据源：baostock 前复权月线 · 与 scan_3y5x.py 算法一致
+  </p>
+  <div class="stats">
+    <div class="stat"><b>32</b><span>原 s.html 标的</span></div>
+    <div class="stat"><b class="ok">31</b><span>验证达标</span></div>
+    <div class="stat"><b class="fail">1</b><span>未达标</span></div>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>股票</th>
+        <th>增长区间</th>
+        <th>初始股价</th>
+        <th>最高股价</th>
+        <th>涨幅</th>
+        <th>验证</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  <p class="note">
+    说明：初始/最高价为验证区间内月线 low/high（前复权），非 s.html 手写区间。
+    海思科在任意 36 月内最高涨幅约 325%，未达 500% 阈值，建议从清单移除或标注例外。
+    药明康德 s.html 写 ~453% 为低估，实测最优区间约 +1337%。
+  </p>
+</div>
+<script>
+const DATA = [
+  ["上纬新材","688585","2024.02 → 2026.05",4.14,223.24,5286.6,true],
+  ["新易盛","300502","2022.10 → 2025.10",7.24,309.12,4171.6,true],
+  ["卓胜微","300782","2019.06 → 2021.06",8.05,337.41,4089.7,true],
+  ["锦浪科技","300763","2019.08 → 2022.08",7.67,288.35,3658.8,true],
+  ["源杰科技","688498","2024.09 → 2026.06",53.92,1968.14,3550.1,true],
+  ["中际旭创","300308","2022.12 → 2025.12",18.50,658.02,3456.2,true],
+  ["阳光电源","300274","2018.10 → 2021.07",3.51,123.83,3426.3,true],
+  ["英科医疗","300677","2018.12 → 2021.01",4.92,156.62,3086.2,true],
+  ["胜宏科技","300476","2024.02 → 2026.05",13.63,402.60,2853.1,true],
+  ["天孚通信","300394","2023.02 → 2026.02",9.91,269.05,2614.0,true],
+  ["天普股份","605255","2024.02 → 2025.12",9.12,217.97,2291.1,true],
+  ["宁德时代","300750","2018.06 → 2021.06",15.47,278.94,1702.6,true],
+  ["山西汾酒","600809","2018.10 → 2021.07",19.71,351.94,1685.7,true],
+  ["融捷股份","002192","2018.10 → 2021.09",11.84,187.99,1488.0,true],
+  ["隆基绿能","601012","2018.08 → 2021.08",4.64,68.40,1374.1,true],
+  ["湖北宜化","000422","2018.10 → 2021.10",2.23,32.16,1341.0,true],
+  ["百利天恒","688506","2023.01 → 2025.09",28.75,414.02,1340.1,true],
+  ["舍得酒业","600702","2018.10 → 2021.07",17.43,250.89,1339.3,true],
+  ["药明康德","603259","2018.05 → 2021.02",10.03,144.07,1337.0,true],
+  ["通威股份","600438","2018.10 → 2021.09",4.17,54.41,1205.5,true],
+  ["舒泰神","300204","2024.07 → 2025.08",5.41,66.66,1132.2,true],
+  ["合盛硅业","603260","2020.04 → 2021.09",20.25,247.00,1119.7,true],
+  ["大族激光","002008","2024.02 → 2026.06",14.09,168.08,1093.0,true],
+  ["赣锋锂业","002460","2019.01 → 2021.09",12.77,152.23,1091.9,true],
+  ["天齐锂业","002466","2020.04 → 2022.07",13.99,136.95,878.7,true],
+  ["云天化","600096","2018.10 → 2021.09",3.47,30.40,776.5,true],
+  ["比亚迪","002594","2018.08 → 2021.08",11.80,102.77,770.9,true],
+  ["远兴能源","000683","2020.05 → 2021.09",1.31,11.26,762.4,true],
+  ["卧龙电驱","600580","2024.02 → 2025.09",6.79,56.60,733.0,true],
+  ["艾力斯","688578","2022.08 → 2025.08",16.85,115.65,586.5,true],
+  ["固德威","688390","2020.09 → 2022.08",37.04,232.31,527.1,true],
+  ["海思科","002653","2022.08 → 2025.08",14.66,62.33,325.0,false]
+];
+const tb = document.getElementById('tbody');
+DATA.forEach((r, i) => {
+  const tr = document.createElement('tr');
+  if (!r[6]) tr.className = 'warn';
+  tr.innerHTML = `<td>${i+1}</td><td>${r[0]}<div class="code">${r[1]}</div></td><td>${r[2]}</td><td class="num">¥${r[3]}</td><td class="num">¥${r[4]}</td><td class="num">+${r[5].toLocaleString()}%</td><td class="${r[6]?'ok':'fail'}">${r[6]?'达标':'未达标'}</td>`;
+  tb.appendChild(tr);
+});
+</script>
+</body>
+</html>

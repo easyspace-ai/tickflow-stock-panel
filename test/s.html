@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三年五倍 · 2016–2026 十倍股清单</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Noto+Sans+SC:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #080b14;
+  --bg-secondary: #0d1225;
+  --bg-card: rgba(255,255,255,0.03);
+  --bg-card-hover: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.06);
+  --border-hover: rgba(255,255,255,0.12);
+  --text-primary: #e8edf5;
+  --text-secondary: #8892a8;
+  --text-tertiary: #5a6478;
+  --accent-cn: #f0b429;
+  --accent-us: #3b82f6;
+  --wave-1: #a855f7;
+  --wave-2: #22d3ee;
+  --wave-3: #f97316;
+  --up: #22c55e;
+  --down: #ef4444;
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── Particles Background ── */
+#particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 20%, rgba(168,85,247,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 50% at 90% 80%, rgba(34,211,238,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(249,115,22,0.03) 0%, transparent 70%);
+}
+#particles span {
+  position: absolute;
+  width: 2px; height: 2px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 50%;
+  animation: float linear infinite;
+}
+@keyframes float {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+}
+
+/* ── Layout ── */
+.container { max-width: 1280px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+section { padding: 60px 0; }
+
+/* ── Hero ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 80px 0;
+  position: relative;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+}
+.hero-content { max-width: 720px; }
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  background: var(--bg-card);
+  backdrop-filter: blur(8px);
+}
+.hero-badge span { color: var(--accent-cn); }
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  margin-bottom: 20px;
+}
+.hero h1 .highlight {
+  background: linear-gradient(135deg, var(--accent-cn), var(--accent-us));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero p {
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 40px;
+  max-width: 560px;
+}
+
+/* ── Stats Grid ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 40px;
+}
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  backdrop-filter: blur(8px);
+  transition: background 0.2s, border-color 0.2s;
+}
+.stat-card:hover { background: var(--bg-card-hover); border-color: var(--border-hover); }
+.stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #f0b429, #f97316);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.stat-card.cn .stat-number { background: linear-gradient(135deg, #f0b429, #eab308); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.stat-card.us .stat-number { background: linear-gradient(135deg, #3b82f6, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.stat-card.wave .stat-number { background: linear-gradient(135deg, #a855f7, #22d3ee); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.stat-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  font-weight: 400;
+}
+
+/* ── Section Titles ── */
+.section-header { margin-bottom: 36px; }
+.section-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+.section-tag.cn { background: rgba(240,180,41,0.1); color: var(--accent-cn); }
+.section-tag.us { background: rgba(59,130,246,0.1); color: var(--accent-us); }
+.section-title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.section-subtitle {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+/* ── Wave Timeline ── */
+.wave-grid { display: grid; gap: 16px; margin-top: 24px; }
+.wave-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  backdrop-filter: blur(8px);
+  transition: background 0.2s, border-color 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.wave-card:hover { background: var(--bg-card-hover); border-color: var(--border-hover); }
+.wave-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+}
+.wave-card.w1::before { background: linear-gradient(180deg, #a855f7, #c084fc); }
+.wave-card.w2::before { background: linear-gradient(180deg, #22d3ee, #67e8f9); }
+.wave-card.w3::before { background: linear-gradient(180deg, #f97316, #fb923c); }
+.wave-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; }
+.wave-period {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  letter-spacing: 0.02em;
+}
+.wave-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 8px 0;
+}
+.w1 .wave-title { color: #c084fc; }
+.w2 .wave-title { color: #67e8f9; }
+.w3 .wave-title { color: #fb923c; }
+.wave-desc {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-top: 8px;
+}
+.wave-stocks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+.wave-stock-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: var(--text-secondary);
+}
+.wave-stock-tag em {
+  font-style: normal;
+  color: var(--up);
+  font-weight: 600;
+}
+
+/* ── Tables ── */
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  backdrop-filter: blur(8px);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 700px;
+}
+thead {
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid var(--border);
+}
+th {
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+td {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  color: var(--text-secondary);
+  transition: color 0.15s;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { color: var(--text-primary); }
+tr:hover { background: var(--bg-card-hover); }
+
+td.code {
+  font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+td.name { font-weight: 500; color: var(--text-primary); }
+td.return {
+  font-weight: 700;
+  font-size: 14px;
+  font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+}
+td.return.positive { color: var(--up); }
+td.return.highlight {
+  background: linear-gradient(135deg, rgba(34,197,94,0.08), rgba(34,197,94,0.02));
+  color: var(--up);
+}
+td.driver { max-width: 200px; }
+td.cap { font-size: 12px; color: var(--text-tertiary); }
+
+th:first-child, td:first-child { padding-left: 20px; }
+th:last-child, td:last-child { padding-right: 20px; }
+
+/* ── Sector badges ── */
+.sector-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.sector-badge.new-energy { background: rgba(34,211,238,0.1); color: #67e8f9; }
+.sector-badge.pv { background: rgba(250,204,21,0.1); color: #facc15; }
+.sector-badge.ai { background: rgba(168,85,247,0.1); color: #c084fc; }
+.sector-badge.cycle { background: rgba(249,115,22,0.1); color: #fb923c; }
+.sector-badge.consumer { background: rgba(251,146,60,0.1); color: #fb923c; }
+.sector-badge.pharma { background: rgba(52,211,153,0.1); color: #34d399; }
+.sector-badge.ma { background: rgba(244,63,94,0.1); color: #fb7185; }
+.sector-badge.storage { background: rgba(59,130,246,0.1); color: #60a5fa; }
+.sector-badge.tech { background: rgba(129,140,248,0.1); color: #818cf8; }
+.sector-badge.energy { background: rgba(52,211,153,0.15); color: #4ade80; }
+.sector-badge.other { background: rgba(255,255,255,0.04); color: var(--text-tertiary); }
+
+/* ── Common Features ── */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+.feature-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.feature-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+}
+.feature-icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+.feature-icon.i1 { background: rgba(168,85,247,0.1); }
+.feature-icon.i2 { background: rgba(34,211,238,0.1); }
+.feature-icon.i3 { background: rgba(249,115,22,0.1); }
+.feature-icon.i4 { background: rgba(34,197,94,0.1); }
+.feature-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.feature-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ── Disclaimer ── */
+.disclaimer {
+  background: linear-gradient(135deg, rgba(239,68,68,0.04), rgba(239,68,68,0.01));
+  border: 1px solid rgba(239,68,68,0.1);
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  margin-top: 40px;
+}
+.disclaimer-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--down);
+  margin-bottom: 6px;
+}
+.disclaimer p {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  line-height: 1.7;
+}
+
+/* ── Footer ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 24px 0;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  section { padding: 40px 0; }
+  .hero { min-height: auto; padding: 60px 0; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .wave-card { padding: 20px; }
+  th, td { padding: 10px 12px; }
+  td.driver { max-width: 140px; }
+}
+
+/* ── Fade In ── */
+.fade-in { opacity: 0; transform: translateY(20px); animation: fadeIn 0.6s ease forwards; }
+@keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+.fade-in:nth-child(1) { animation-delay: 0.05s; }
+.fade-in:nth-child(2) { animation-delay: 0.1s; }
+.fade-in:nth-child(3) { animation-delay: 0.15s; }
+.fade-in:nth-child(4) { animation-delay: 0.2s; }
+</style>
+</head>
+<body>
+
+<div id="particles"></div>
+
+<!-- ══ Hero ══ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span>●</span> 2016 – 2026 · 回测研究
+      </div>
+      <h1>
+        过去十年<br>
+        <span class="highlight">「三年五倍」</span><br>
+        股票清单
+      </h1>
+      <p>任意连续 3 年涨幅 ≥ 500% 的 A 股 &amp; 美股标的。三波产业浪潮，50 只十倍股，复盘真正的 alpha 从哪里诞生。</p>
+
+      <div class="stats-grid">
+        <div class="stat-card fade-in">
+          <div class="stat-number">50</div>
+          <div class="stat-label">股票总数</div>
+        </div>
+        <div class="stat-card cn fade-in">
+          <div class="stat-number">32</div>
+          <div class="stat-label">A 股</div>
+        </div>
+        <div class="stat-card us fade-in">
+          <div class="stat-number">18</div>
+          <div class="stat-label">美股</div>
+        </div>
+        <div class="stat-card wave fade-in">
+          <div class="stat-number">3</div>
+          <div class="stat-label">产业浪潮</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Waves ══ -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag" style="background:rgba(168,85,247,0.1);color:#a855f7">核心浪潮</div>
+      <h2 class="section-title">三波产业革命</h2>
+      <p class="section-subtitle">每一轮「三年五倍」都诞生于真实的技术与产业变革</p>
+    </div>
+
+    <div class="wave-grid">
+      <div class="wave-card w1 fade-in">
+        <div class="wave-header">
+          <span class="wave-period">2019 – 2021</span>
+        </div>
+        <div class="wave-title">⚡ 新能源 · 电动车 · 光伏</div>
+        <div class="wave-desc">
+          新能源车渗透率从 5% 冲向 20%，光伏平价上网元年。中国供应链 + 政策补贴双重驱动，A 股走出宁德时代 18 倍、隆基 15 倍的历史级牛市。
+        </div>
+        <div class="wave-stocks">
+          <span class="wave-stock-tag">宁德时代 <em>18×</em></span>
+          <span class="wave-stock-tag">比亚迪 <em>13×</em></span>
+          <span class="wave-stock-tag">隆基绿能 <em>15×</em></span>
+          <span class="wave-stock-tag">阳光电源 <em>14×</em></span>
+          <span class="wave-stock-tag">通威股份 <em>10×</em></span>
+          <span class="wave-stock-tag">特斯拉 <em>14×</em></span>
+          <span class="wave-stock-tag">Enphase <em>20×</em></span>
+        </div>
+      </div>
+
+      <div class="wave-card w2 fade-in">
+        <div class="wave-header">
+          <span class="wave-period">2020 – 2022 / 2023</span>
+        </div>
+        <div class="wave-title">🧪 锂矿 · 化工 · 储能</div>
+        <div class="wave-desc">
+          锂价从 5 万/吨飙升至 60 万/吨，疫情后全球供应链重构。磷化工、有机硅、纯碱轮番涨价。欧洲能源危机催生储能第二波。
+        </div>
+        <div class="wave-stocks">
+          <span class="wave-stock-tag">天齐锂业 <em>10×</em></span>
+          <span class="wave-stock-tag">赣锋锂业 <em>5×</em></span>
+          <span class="wave-stock-tag">云天化 <em>10×</em></span>
+          <span class="wave-stock-tag">合盛硅业 <em>8×</em></span>
+          <span class="wave-stock-tag">固德威 <em>6×</em></span>
+          <span class="wave-stock-tag">Celsius <em>24×</em></span>
+        </div>
+      </div>
+
+      <div class="wave-card w3 fade-in">
+        <div class="wave-header">
+          <span class="wave-period">2023 – 2026</span>
+        </div>
+        <div class="wave-title">🧠 AI · 光模块 · 半导体</div>
+        <div class="wave-desc">
+          ChatGPT 引爆全球 AI 算力军备竞赛。光模块从 800G 到 1.6T 迭代不止，HBM 内存供不应求，AI 数据中心散热/电源需求爆发。中际旭创 146 倍成为 A 股新神话。
+        </div>
+        <div class="wave-stocks">
+          <span class="wave-stock-tag">中际旭创 <em>146×</em></span>
+          <span class="wave-stock-tag">新易盛 <em>36×</em></span>
+          <span class="wave-stock-tag">源杰科技 <em>15.5×</em></span>
+          <span class="wave-stock-tag">NVIDIA <em>11×</em></span>
+          <span class="wave-stock-tag">AppLovin <em>46×</em></span>
+          <span class="wave-stock-tag">Vertiv <em>12.5×</em></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ A-Share Table ══ -->
+<section>
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-tag cn">🇨🇳 A 股</div>
+      <h2 class="section-title">A 股「三年五倍」清单</h2>
+      <p class="section-subtitle">32 只标的 · 按赛道分组</p>
+    </div>
+
+    <!-- Wave 1: New Energy -->
+    <div class="table-wrapper fade-in" style="margin-bottom:24px">
+      <table>
+        <thead>
+          <tr><th style="padding-top:16px" colspan="7">⚡ 新能源 / 动力电池（2019–2021）</th></tr>
+          <tr><th>#</th><th>股票</th><th>代码</th><th>区间</th><th>涨幅</th><th>核心驱动</th><th>赛道</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td class="name">宁德时代</td><td class="code">300750</td><td>2019.10 → 2021.12</td><td class="return positive">~1,770%</td><td class="driver">全球动力电池龙头，新能源车渗透率 5%→20%</td><td><span class="sector-badge new-energy">新能源</span></td></tr>
+          <tr><td>2</td><td class="name">比亚迪</td><td class="code">002594</td><td>2019.01 → 2022.06</td><td class="return positive">~1,280%</td><td class="driver">刀片电池+DM混动，新能源车销量全球第一</td><td><span class="sector-badge new-energy">新能源</span></td></tr>
+          <tr><td>3</td><td class="name">隆基绿能</td><td class="code">601012</td><td>2018.09 → 2021.11</td><td class="return positive">~1,527%</td><td class="driver">单晶硅技术路线胜出，全球光伏龙头</td><td><span class="sector-badge pv">光伏</span></td></tr>
+          <tr><td>4</td><td class="name">阳光电源</td><td class="code">300274</td><td>2019.08 → 2021.11</td><td class="return positive">~1,400%</td><td class="driver">光伏逆变器+储能双龙头</td><td><span class="sector-badge pv">光伏</span></td></tr>
+          <tr><td>5</td><td class="name">天齐锂业</td><td class="code">002466</td><td>2020.01 → 2022.06</td><td class="return positive">~900%</td><td class="driver">锂价从 5 万 → 60 万/吨</td><td><span class="sector-badge new-energy">新能源</span></td></tr>
+          <tr><td>6</td><td class="name">赣锋锂业</td><td class="code">002460</td><td>2020.09 → 2022.02</td><td class="return positive">~522%</td><td class="driver">锂矿资源龙头，三轮主升浪</td><td><span class="sector-badge new-energy">新能源</span></td></tr>
+          <tr><td>7</td><td class="name">融捷股份</td><td class="code">002192</td><td>2020.03 → 2021.11</td><td class="return positive">~1,200%</td><td class="driver">锂矿小市值弹性标的</td><td><span class="sector-badge new-energy">新能源</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PV/Storage -->
+    <div class="table-wrapper fade-in" style="margin-bottom:24px">
+      <table>
+        <thead>
+          <tr><th style="padding-top:16px" colspan="7">☀️ 光伏 / 储能（2018–2021 / 2022–2023）</th></tr>
+          <tr><th>#</th><th>股票</th><th>代码</th><th>区间</th><th>涨幅</th><th>核心驱动</th><th>赛道</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>8</td><td class="name">通威股份</td><td class="code">600438</td><td>2018.10 → 2021.08</td><td class="return positive">~920%</td><td class="driver">硅料+电池双龙头</td><td><span class="sector-badge pv">光伏</span></td></tr>
+          <tr><td>9</td><td class="name">固德威</td><td class="code">688390</td><td>2022.04 → 2023.06</td><td class="return positive">~600%</td><td class="driver">储能逆变器，欧洲能源危机受益</td><td><span class="sector-badge pv">储能</span></td></tr>
+          <tr><td>10</td><td class="name">锦浪科技</td><td class="code">300763</td><td>2022.04 → 2023.06</td><td class="return positive">~550%</td><td class="driver">储能逆变器龙头</td><td><span class="sector-badge pv">储能</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- AI -->
+    <div class="table-wrapper fade-in" style="margin-bottom:24px">
+      <table>
+        <thead>
+          <tr><th style="padding-top:16px" colspan="7">🧠 AI / 光模块 / 半导体（2023–2026）</th></tr>
+          <tr><th>#</th><th>股票</th><th>代码</th><th>区间</th><th>涨幅</th><th>核心驱动</th><th>赛道</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>11</td><td class="name">中际旭创</td><td class="code">300308</td><td>2022.10 → 2026.06</td><td class="return positive">~14,570%</td><td class="driver">AI 光模块绝对龙头，绑定英伟达</td><td><span class="sector-badge ai">光模块</span></td></tr>
+          <tr><td>12</td><td class="name">新易盛</td><td class="code">300502</td><td>2022.10 → 2025.09</td><td class="return positive">~3,600%</td><td class="driver">光模块龙头，AI 数据中心需求</td><td><span class="sector-badge ai">光模块</span></td></tr>
+          <tr><td>13</td><td class="name">天孚通信</td><td class="code">300394</td><td>2022.10 → 2025.09</td><td class="return positive">~3,260%</td><td class="driver">光器件龙头，CPO 技术</td><td><span class="sector-badge ai">光器件</span></td></tr>
+          <tr><td>14</td><td class="name">源杰科技</td><td class="code">688498</td><td>2025.04 → 2026.04</td><td class="return positive">~1,560%</td><td class="driver">光芯片龙头，A 股新"股王"</td><td><span class="sector-badge ai">光芯片</span></td></tr>
+          <tr><td>15</td><td class="name">卓胜微</td><td class="code">300782</td><td>2019.07 → 2021.07</td><td class="return positive">~4,100%</td><td class="driver">射频芯片国产替代龙头</td><td><span class="sector-badge ai">半导体</span></td></tr>
+          <tr><td>16</td><td class="name">大族激光</td><td class="code">002008</td><td>2025.05 → 2026.05</td><td class="return positive">~509%</td><td class="driver">AI PCB 钻孔设备龙头</td><td><span class="sector-badge ai">设备</span></td></tr>
+          <tr><td>17</td><td class="name">胜宏科技</td><td class="code">300476</td><td>2024.08 → 2025.08</td><td class="return positive">~550%</td><td class="driver">AI 服务器高端 PCB 龙头</td><td><span class="sector-badge ai">PCB</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Cycle -->
+    <div class="table-wrapper fade-in" style="margin-bottom:24px">
+      <table>
+        <thead>
+          <tr><th style="padding-top:16px" colspan="7">🔥 涨价 / 周期（2020–2022）</th></tr>
+          <tr><th>#</th><th>股票</th><th>代码</th><th>区间</th><th>涨幅</th><th>核心驱动</th><th>赛道</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>18</td><td class="name">远兴能源</td><td class="code">000683</td><td>2020.03 → 2021.10</td><td class="return positive">~729%</td><td class="driver">纯碱涨价龙头</td><td><span class="sector-badge cycle">化工</span></td></tr>
+          <tr><td>19</td><td class="name">云天化</td><td class="code">600096</td><td>2020.10 → 2021.12</td><td class="return positive">~1,000%</td><td class="driver">磷化工龙头，磷酸铁锂需求爆发</td><td><span class="sector-badge cycle">化工</span></td></tr>
+          <tr><td>20</td><td class="name">湖北宜化</td><td class="code">000422</td><td>2021.01 → 2021.12</td><td class="return positive">~566%</td><td class="driver">氟化工+磷化工涨价</td><td><span class="sector-badge cycle">化工</span></td></tr>
+          <tr><td>21</td><td class="name">合盛硅业</td><td class="code">603260</td><td>2020.05 → 2021.09</td><td class="return positive">~740%</td><td class="driver">有机硅 DMC 价格暴涨</td><td><span class="sector-badge cycle">化工</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Consumer -->
+    <div class="table-wrapper fade-in" style="margin-bottom:24px">
+      <table>
+        <thead>
+          <tr><th style="padding-top:16px" colspan="7">🍶 消费 / 白酒（2019–2021）</th></tr>
+          <tr><th>#</th><th>股票</th><th>代码</th><th>区间</th><th>涨幅</th><th>核心驱动</th><th>赛道</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>22</td><td class="name">山西汾酒</td><td class="code">600809</td><td>2019.08 → 2021.12</td><td class="return positive">~900%</td><td class="driver">次高端白酒全国化标杆</td><td><span class="sector-badge consumer">白酒</span></td></tr>
+          <tr><td>23</td><td class="name">舍得酒业</td><td class="code">600702</td><td>2020.03 → 2021.12</td><td class="return positive">~1,770%</td><td class="driver">复星赋能 + 老酒战略</td><td><span class="sector-badge consumer">白酒</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pharma -->
+    <div class="table-wrapper fade-in" style="margin-bottom:24px">
+      <table>
+        <thead>
+          <tr><th style="padding-top:16px" colspan="7">💊 医药 / 创新药（2018–2021 / 2023–2025）</th></tr>
+          <tr><th>#</th><th>股票</th><th>代码</th><th>区间</th><th>涨幅</th><th>核心驱动</th><th>赛道</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>24</td><td class="name">药明康德</td><td class="code">603259</td><td>2018.12 → 2021.12</td><td class="return positive">~453%</td><td class="driver">CXO 赛道红利，全球新药外包龙头</td><td><span class="sector-badge pharma">CXO</span></td></tr>
+          <tr><td>25</td><td class="name">百利天恒</td><td class="code">688506</td><td>2023.01 → 2025.02</td><td class="return positive">~843%</td><td class="driver">84 亿美元 BD 授权 BMS，双抗 ADC</td><td><span class="sector-badge pharma">创新药</span></td></tr>
+          <tr><td>26</td><td class="name">英科医疗</td><td class="code">300677</td><td>2020.03 → 2021.01</td><td class="return positive">~1,011%</td><td class="driver">疫情手套需求爆发</td><td><span class="sector-badge pharma">医疗</span></td></tr>
+          <tr><td>27</td><td class="name">海思科</td><td class="code">002653</td><td>2022.10 → 2025.03</td><td class="return positive">~500%</td><td class="driver">创新药管线 + AI 辅助药物开发</td><td><span class="sector-badge pharma">创新药</span></td></tr>
+          <tr><td>28</td><td class="name">艾力斯</td><td class="code">688578</td><td>2022.10 → 2025.03</td><td class="return positive">~600%</td><td class="driver">伏美替尼一线肺癌适应症纳入医保</td><td><span class="sector-badge pharma">创新药</span></td></tr>
+          <tr><td>29</td><td class="name">舒泰神</td><td class="code">300204</td><td>2025.01 → 2025 年内</td><td class="return positive">~1,029%</td><td class="driver">创新药估值修复 + 流动性驱动</td><td><span class="sector-badge pharma">创新药</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- M&A / Other -->
+    <div class="table-wrapper fade-in">
+      <table>
+        <thead>
+          <tr><th style="padding-top:16px" colspan="7">🔄 并购重组 / 其他（2024–2025）</th></tr>
+          <tr><th>#</th><th>股票</th><th>代码</th><th>区间</th><th>涨幅</th><th>核心驱动</th><th>赛道</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>30</td><td class="name">上纬新材</td><td class="code">688585</td><td>2025 年全年</td><td class="return positive">~1,820%</td><td class="driver">要约收购驱动</td><td><span class="sector-badge ma">并购</span></td></tr>
+          <tr><td>31</td><td class="name">天普股份</td><td class="code">605255</td><td>2025 年全年</td><td class="return positive">~1,645%</td><td class="driver">并购 + AI 概念</td><td><span class="sector-badge ma">并购</span></td></tr>
+          <tr><td>32</td><td class="name">卧龙电驱</td><td class="code">600580</td><td>2024.09 → 2025.09</td><td class="return positive">~500%</td><td class="driver">人形机器人 + 新能源电机龙头</td><td><span class="sector-badge new-energy">电机</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══ US Stock Table ══ -->
+<section>
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-tag us">🇺🇸 美股</div>
+      <h2 class="section-title">美股「三年五倍」清单</h2>
+      <p class="section-subtitle">18 只标的 · 按赛道分组</p>
+    </div>
+
+    <!-- AI / Semi -->
+    <div class="table-wrapper fade-in" style="margin-bottom:24px">
+      <table>
+        <thead>
+          <tr><th style="padding-top:16px" colspan="7">🧠 AI / 半导体（2022–2025）</th></tr>
+          <tr><th>#</th><th>股票</th><th>代码</th><th>区间</th><th>涨幅</th><th>核心驱动</th><th>赛道</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td class="name">NVIDIA</td><td class="code">NVDA</td><td>2022.10 → 2025.01</td><td class="return positive">~1,093%</td><td class="driver">AI GPU 垄断，数据中心收入暴增</td><td><span class="sector-badge ai">GPU</span></td></tr>
+          <tr><td>2</td><td class="name">Super Micro</td><td class="code">SMCI</td><td>2022.02 → 2024.03</td><td class="return positive">~2,970%</td><td class="driver">AI 服务器龙头</td><td><span class="sector-badge ai">服务器</span></td></tr>
+          <tr><td>3</td><td class="name">AppLovin</td><td class="code">APP</td><td>2022.12 → 2025.02</td><td class="return positive">~4,570%</td><td class="driver">AXON AI 广告引擎</td><td><span class="sector-badge ai">AI 广告</span></td></tr>
+          <tr><td>4</td><td class="name">AMD</td><td class="code">AMD</td><td>2022.10 → 2026.06</td><td class="return positive">~960%</td><td class="driver">MI 系列 AI GPU + 数据中心份额提升</td><td><span class="sector-badge ai">GPU</span></td></tr>
+          <tr><td>5</td><td class="name">Micron</td><td class="code">MU</td><td>2023.06 → 2025.12</td><td class="return positive">~1,743%</td><td class="driver">HBM 内存爆发，AI 服务器刚需</td><td><span class="sector-badge ai">存储</span></td></tr>
+          <tr><td>6</td><td class="name">SanDisk</td><td class="code">SNDK</td><td>2025.02 → 2025.12</td><td class="return positive">~577%</td><td class="driver">NAND 存储 + AI 数据中心</td><td><span class="sector-badge storage">存储</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tech / SaaS -->
+    <div class="table-wrapper fade-in" style="margin-bottom:24px">
+      <table>
+        <thead>
+          <tr><th style="padding-top:16px" colspan="7">🚀 科技 / 电商 / SaaS（2019–2021）</th></tr>
+          <tr><th>#</th><th>股票</th><th>代码</th><th>区间</th><th>涨幅</th><th>核心驱动</th><th>赛道</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>7</td><td class="name">Tesla</td><td class="code">TSLA</td><td>2019.12 → 2021.11</td><td class="return positive">~1,360%</td><td class="driver">电动车渗透率爆发，全球交付量暴增</td><td><span class="sector-badge new-energy">电动车</span></td></tr>
+          <tr><td>8</td><td class="name">Shopify</td><td class="code">SHOP</td><td>2020.03 → 2021.11</td><td class="return positive">~488%</td><td class="driver">电商 SaaS 龙头，疫情线上化加速</td><td><span class="sector-badge tech">SaaS</span></td></tr>
+          <tr><td>9</td><td class="name">Palo Alto Networks</td><td class="code">PANW</td><td>2020.03 → 2024.12</td><td class="return positive">~546%</td><td class="driver">网络安全 SaaS 化转型</td><td><span class="sector-badge tech">网安</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Energy -->
+    <div class="table-wrapper fade-in" style="margin-bottom:24px">
+      <table>
+        <thead>
+          <tr><th style="padding-top:16px" colspan="7">⚡ 能源 / 基建（2020–2022）</th></tr>
+          <tr><th>#</th><th>股票</th><th>代码</th><th>区间</th><th>涨幅</th><th>核心驱动</th><th>赛道</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>10</td><td class="name">Enphase Energy</td><td class="code">ENPH</td><td>2020.03 → 2022.08</td><td class="return positive">~2,010%</td><td class="driver">微逆变器 + 户用储能</td><td><span class="sector-badge energy">储能</span></td></tr>
+          <tr><td>11</td><td class="name">Builders FirstSource</td><td class="code">BLDR</td><td>2020.04 → 2022.06</td><td class="return positive">~950%</td><td class="driver">建材龙头，住房市场繁荣</td><td><span class="sector-badge cycle">建材</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Other US -->
+    <div class="table-wrapper fade-in">
+      <table>
+        <thead>
+          <tr><th style="padding-top:16px" colspan="7">📈 其他（2023–2026）</th></tr>
+          <tr><th>#</th><th>股票</th><th>代码</th><th>区间</th><th>涨幅</th><th>核心驱动</th><th>赛道</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>12</td><td class="name">Western Digital</td><td class="code">WDC</td><td>2023.07 → 2026.07</td><td class="return positive">~2,142%</td><td class="driver">HDD 大容量存储 + AI 推理</td><td><span class="sector-badge storage">存储</span></td></tr>
+          <tr><td>13</td><td class="name">Seagate</td><td class="code">STX</td><td>2023.07 → 2026.07</td><td class="return positive">~1,569%</td><td class="driver">企业级存储龙头</td><td><span class="sector-badge storage">存储</span></td></tr>
+          <tr><td>14</td><td class="name">Lumentum</td><td class="code">LITE</td><td>2023.07 → 2026.07</td><td class="return positive">~1,392%</td><td class="driver">AI 光通信爆发</td><td><span class="sector-badge ai">光通信</span></td></tr>
+          <tr><td>15</td><td class="name">Vertiv</td><td class="code">VRT</td><td>2023.07 → 2026.07</td><td class="return positive">~1,255%</td><td class="driver">AI 数据中心散热/电源</td><td><span class="sector-badge ai">基础设施</span></td></tr>
+          <tr><td>16</td><td class="name">Carvana</td><td class="code">CVNA</td><td>2023.07 → 2026.07</td><td class="return positive">~1,171%</td><td class="driver">在线二手车平台</td><td><span class="sector-badge tech">电商</span></td></tr>
+          <tr><td>17</td><td class="name">Celsius Holdings</td><td class="code">CELH</td><td>2020.03 → 2024.06</td><td class="return positive">~2,400%</td><td class="driver">功能性饮料爆发</td><td><span class="sector-badge consumer">消费</span></td></tr>
+          <tr><td>18</td><td class="name">Axon Enterprise</td><td class="code">AXON</td><td>2022.10 → 2025.12</td><td class="return positive">~500%</td><td class="driver">政府数字化 + 执法 AI</td><td><span class="sector-badge tech">AI 执法</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Common Features ══ -->
+<section>
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-tag" style="background:rgba(34,197,94,0.1);color:#22c55e">🔍 复盘</div>
+      <h2 class="section-title">关键共性特征</h2>
+      <p class="section-subtitle">从 50 只十倍股中提炼的四条规律</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card fade-in">
+        <div class="feature-icon i1">🌊</div>
+        <div class="feature-title">产业趋势共振</div>
+        <div class="feature-desc">所有标的均对应真实的技术/产业浪潮（新能源 / AI / 消费升级），非纯概念炒作。每一轮都有明确的产业逻辑支撑。</div>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon i2">📉</div>
+        <div class="feature-title">起步估值极低</div>
+        <div class="feature-desc">绝大多数在行情启动前处于估值低位。如 2019 年新能源车被市场极度悲观对待，AI 板块在 ChatGPT 爆发前无人问津。</div>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon i3">🏆</div>
+        <div class="feature-title">龙头效应显著</div>
+        <div class="feature-desc">各赛道龙头公司涨幅最为惊人——宁德时代领跑新能源、中际旭创领跑光模块、NVIDIA 领跑 AI 算力。龙头溢价在十倍股中体现得淋漓尽致。</div>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon i4">📊</div>
+        <div class="feature-title">回撤巨大</div>
+        <div class="feature-desc">所有十倍股在上涨途中均经历 50% 以上回撤，完整持有极其困难。这是十倍股的最大代价，也是获得超额收益必须承受的波动。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Disclaimer ══ -->
+<section>
+  <div class="container">
+    <div class="disclaimer fade-in">
+      <div class="disclaimer-title">⚠ 风险提示</div>
+      <p>以上数据仅为历史统计，不构成任何投资建议。股价涨幅以区间最高/最低点计算，实际投资中的择时、持仓和心理承受能力会显著影响真实收益。所有暴涨股均伴随巨大回撤风险。过去的表现不代表未来的结果。投资有风险，入市需谨慎。</p>
+      <p style="margin-top:8px">数据来源：腾讯自选股、StatMuse、证券时报·数据宝、21 世纪经济报道、雪球、NASDAQ、Trefis、新浪财经、36氪</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Footer ══ -->
+<footer>
+  <div class="container">
+    生成日期：2026-07-08 · 仅供研究参考
+  </div>
+</footer>
+
+<script>
+// ── Particles ──
+const pContainer = document.getElementById('particles');
+for (let i = 0; i < 60; i++) {
+  const dot = document.createElement('span');
+  dot.style.left = Math.random() * 100 + '%';
+  dot.style.animationDuration = (15 + Math.random() * 25) + 's';
+  dot.style.animationDelay = Math.random() * 15 + 's';
+  dot.style.width = dot.style.height = (1 + Math.random() * 2) + 'px';
+  dot.style.opacity = 0.1 + Math.random() * 0.25;
+  pContainer.appendChild(dot);
+}
+
+// ── Intersection Observer for fade-in ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.animationPlayState = 'running';
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => {
+  el.style.animationPlayState = 'paused';
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>

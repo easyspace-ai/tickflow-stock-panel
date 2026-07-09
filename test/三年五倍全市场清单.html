@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A股三年五倍全市场清单（2016-2026）</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif; background: #0d1225; color: #e8edf5; padding: 32px 20px; }
+  .wrap { max-width: 1280px; margin: 0 auto; }
+  h1 { font-size: 1.6rem; margin-bottom: 8px; }
+  .meta { color: #8892a8; font-size: 0.9rem; line-height: 1.6; margin-bottom: 24px; }
+  .stats { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+  .stat { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 14px 20px; }
+  .stat b { display: block; font-size: 1.4rem; color: #f0b429; }
+  .stat span { font-size: 0.8rem; color: #8892a8; }
+  table { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.03); border-radius: 12px; overflow: hidden; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.88rem; }
+  th { background: rgba(255,255,255,0.05); color: #8892a8; }
+  tr:hover td { background: rgba(255,255,255,0.03); }
+  .code { color: #8892a8; font-size: 0.8rem; }
+  .num { font-variant-numeric: tabular-nums; }
+  .gain { color: #22c55e; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>A股「三年五倍」全市场清单</h1>
+  <p class="meta">
+    标准：2016-2026 任意连续 ≤36 月，前复权月线 low→high 涨幅 ≥500%<br>
+    数据源：baostock · 生成时间 2026-07-08 19:30
+  </p>
+  <div class="stats">
+    <div class="stat"><b>5</b><span>达标股票</span></div>
+  </div>
+  <table>
+    <thead><tr><th>#</th><th>股票</th><th>增长区间</th><th>初始股价</th><th>最高股价</th><th>涨幅</th></tr></thead>
+    <tbody id="tb"></tbody>
+  </table>
+</div>
+<script>
+const DATA = [[1, "澄星股份", "600078", "2021.05 → 2022.08", 1.8347, 18.4062, 903.23], [2, "云天化", "600096", "2018.10 → 2021.09", 3.4685, 30.4003, 776.47], [3, "凤凰光学", "600071", "2018.12 → 2021.11", 7.21, 61.58, 754.09], [4, "三一重工", "600031", "2018.03 → 2021.02", 6.4125, 45.2361, 605.44], [5, "湘财股份", "600095", "2018.10 → 2020.08", 3.0942, 19.4056, 527.17]];
+const tb = document.getElementById('tb');
+DATA.forEach(r => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${r[0]}</td><td>${r[1]}<div class="code">${r[2]}</div></td><td>${r[3]}</td><td class="num">¥${r[4]}</td><td class="num">¥${r[5]}</td><td class="num gain">+${r[6].toLocaleString()}%</td>`;
+  tb.appendChild(tr);
+});
+</script>
+</body>
+</html>

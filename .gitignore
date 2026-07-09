@@ -106,3 +106,12 @@ packaging/installed_run.log
 TickFlowStockPanel.app/
 TickFlowStockPanel-macos*.dmg
 TickFlowStockPanel-macos*.zip
+
+# ===== Stock growth script caches / outputs =====
+backend/scripts/cache_daily/
+backend/scripts/cache_daily_fwd/
+backend/app/scripts/
+backend/scripts/*.csv
+
+backend/scripts/three_year_five_times*.csv
+data/user_data/three_year_five_times.csv
