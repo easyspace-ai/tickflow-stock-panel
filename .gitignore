@@ -14,6 +14,7 @@ env/
 .coverage
 htmlcov/
 dist/
+!frontend/dist/
 build/
 *.egg-info/
 
@@ -28,7 +29,7 @@ node_modules/
 *.log
 
 # ===== Vite =====
-frontend/dist/
+# frontend/dist/ 已纳入 git, 供 PM2 生产部署 git pull 即用
 frontend/.vite/
 backend/static/
 backend/app/static/

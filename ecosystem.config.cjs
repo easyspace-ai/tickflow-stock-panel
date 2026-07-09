@@ -32,7 +32,7 @@
  *    pm2 delete tickflow-stock-panel 2>/dev/null || true   # 清掉旧配置 (曾用 uv run 的)
  *    pm2 start ecosystem.config.cjs
  *    pm2 logs tickflow-stock-panel
- *    curl -s http://127.0.0.1:3018/health   # 应返回 {"status":"ok",...}
+ *    curl -s http://127.0.0.1:7300/health   # 应返回 {"status":"ok",...}
  *    pm2 save && pm2 startup                 # 开机自启 (按 pm2 startup 提示执行)
  *
  * 7. (可选) Nginx 反向代理 — 示例见文件末尾
@@ -49,8 +49,14 @@
  * 日志里只见反复 Downloading, 永远到不了 uvicorn 监听端口。
  * dev.sh 本地能跑是因为 .venv 已存在且 sync 快, 且无 PM2 重启循环。
  *
- * 访问: http://<服务器IP>:3018  (或 .env 中 PORT)
+ * 访问: http://<服务器IP>:7300  (或 .env 中 PORT)
  * 公网部署请在 .env 设置 AUTH_PASSWORD, 详见 docs/deployment.md
+ *
+ * ── 端口说明 (9200 vs 7300) ───────────────────────────────────────
+ * 9200 仅 dev.sh / pnpm dev 的 Vite 开发服务器端口, PM2 生产不会启动 Vite。
+ * 生产只有一个 uvicorn 进程, 托管 API + frontend/dist 静态文件, 默认 PORT=7300。
+ * 更新后若 ss 看不到 9200 属于正常现象; 请访问 http://<IP>:7300
+ * 若历史原因必须用 9200 对外, 在 .env 设 PORT=9200 后 pm2 reload ecosystem.config.cjs
  */
 
 const fs = require("fs");
@@ -110,7 +116,7 @@ if (!fs.existsSync(FRONTEND_DIST)) {
 }
 
 const dotenv = loadDotEnv(path.join(ROOT, ".env"));
-const PORT = dotenv.PORT || process.env.PORT || "3018";
+const PORT = dotenv.PORT || process.env.PORT || "7300";
 const HOST = dotenv.HOST || process.env.HOST || "0.0.0.0";
 const VENV_BIN = path.join(BACKEND, ".venv", "bin");
 
@@ -161,7 +167,7 @@ module.exports = {
  *     server_name panel.example.com;
  *
  *     location / {
- *         proxy_pass http://127.0.0.1:3018;
+ *         proxy_pass http://127.0.0.1:7300;
  *         proxy_http_version 1.1;
  *         proxy_set_header Host $host;
  *         proxy_set_header X-Real-IP $remote_addr;

@@ -161,7 +161,16 @@ docker compose up --build
 
 镜像已内置 **stock-sdk** 数据源插件(Node 运行时 + 依赖),开箱即用。
 
-> 📖 Docker 进阶、GitHub Actions 自构建、老 CPU 兼容、访问密码设置等见 [docs/deployment.md](./docs/deployment.md)。
+### 方式 C:PM2 裸机部署
+
+```bash
+cp .env.example .env
+# 构建 + 启动见 docs/deployment.md「方式 C:PM2 生产部署」
+pm2 start ecosystem.config.cjs
+# 打开 http://<服务器IP>:7300  (生产单端口,非 dev 的 9200)
+```
+
+> 📖 Docker 进阶、**PM2 部署与端口说明**、GitHub Actions 自构建、老 CPU 兼容、访问密码设置等见 [docs/deployment.md](./docs/deployment.md)。
 
 ### 跑起来后的第一次使用
 
@@ -180,7 +189,7 @@ docker compose up --build
 ```ini
 TICKFLOW_API_KEY=              # 留空 = None 模式(历史日K免费);填 Key 解锁更多
 AI_API_KEY=                    # 留空 = 关闭 AI;填 Key 启用策略生成
-PORT=3018                      # 服务端口
+PORT=7300                      # 生产服务端口 (dev.sh 本地后端仍为 3018)
 ```
 
 > 📖 完整配置项(数据源档位、AI、服务、密码、老 CPU 兼容)见 [docs/configuration.md](./docs/configuration.md)。

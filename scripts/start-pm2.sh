@@ -9,6 +9,8 @@
 # 前端构建 (FastAPI 托管 frontend/dist):
 #   cd /data/tickflow-stock-panel/frontend && pnpm install && pnpm build
 #
+# 端口: 生产只监听 PORT (默认 7300)。9200 是 dev.sh 的 Vite 开发端口, PM2 不会启动。
+#
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -23,7 +25,7 @@ if [ ! -x "$UVICORN" ]; then
 fi
 
 HOST="${HOST:-0.0.0.0}"
-PORT="${PORT:-3018}"
+PORT="${PORT:-7300}"
 
 cd "$BACKEND_DIR"
 exec "$UVICORN" app.main:app --host "$HOST" --port "$PORT"
